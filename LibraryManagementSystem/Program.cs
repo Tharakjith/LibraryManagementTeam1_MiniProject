@@ -32,7 +32,7 @@ namespace LibraryManagementSystem
      });
 
 
-            //3-json format
+            // - json format
             builder.Services.AddControllersWithViews()
              .AddJsonOptions(
              options =>
