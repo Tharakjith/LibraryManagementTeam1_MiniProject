@@ -29,7 +29,7 @@ namespace LibraryManagementSystem
              IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(
                  builder.Configuration["Jwt:Key"]))
          };
-     });
+     } );
 
 
             //3-json format
