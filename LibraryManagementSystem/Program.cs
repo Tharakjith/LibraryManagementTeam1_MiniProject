@@ -50,7 +50,7 @@ namespace LibraryManagementSystem
             // Configure database context
             builder.Services.AddDbContext<LibraryMngtDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("PropelAug24Connection")));
-=======
+
             
 
 
