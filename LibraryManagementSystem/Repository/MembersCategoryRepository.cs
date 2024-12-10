@@ -216,7 +216,7 @@ namespace LibraryManagementSystem.Repository
         }
         #endregion
 
-        #region  7  - Get all Categories
+        #region  7  - Get all Category list
         public async Task<ActionResult<IEnumerable<Category>>> GetTblCategories()
         {
             try
