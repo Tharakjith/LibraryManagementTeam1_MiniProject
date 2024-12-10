@@ -46,34 +46,39 @@ namespace LibraryManagementSystem.Repository
         }
         #endregion
 
-//        #region 2- Get Reports of Borrowed books
-//        public async Task<ActionResult<IEnumerable<BoAuCatViewModel>>> GetViewModelBookCategories()
-//        {
-//            //LINQ
-//            try
-//            {
-//                if (_context != null)
-//                {
-//                    return await (from e in _context.TblEmployees
-//                                  from d in _context.TblDepartments
-//                                  where e.DepartmentId == d.DepartmentId
-//                                  select new BoAuCatViewModel
-//                                  {
-//                                      EmployeeId = e.EmployeeId,
-//                                      EmployeeName = e.EmployeeName,
-//                                      Designation = e.Designation,
-//                                      DepartmentName = d.DepartmentName,
-//                                      Contact = e.Contact
-//                                  }).ToListAsync();
-//                }
-//                //Return an empty List if context is null
-//                return new List<BoAuCatViewModel>();
-//            }
-//            catch (Exception ex)
-//            {
-//                return null;
-//            }
-//        }
-//#endregion
+        #region 2- Get Reports of Borrowed books
+        public async Task<ActionResult<IEnumerable<BookBorrowViewModel>>> GetViewModelBookCategories()
+        {
+            //LINQ
+            try
+            {
+                if (_context != null)
+                {
+                    return await (from b in _context.Books
+                                  join t in _context.BorrowTransactions on b.BookId equals t.BookId
+                                  join a in _context.Authors on b.AuthorId equals a.AuthorId
+                                  join c in _context.Categories on b.CategoryId equals c.CategoryId
+                                  select new BookBorrowViewModel
+                                  {
+                                      Title = b.Title,
+                                      AuthorName = a.AuthorName,
+                                      CategoryName = c.CategoryName,
+                                      AvailableCopies = b.AvailableCopies,
+                                      price = b.Price,
+                                      BorrowDate = t.BorrowDate,
+                                      ReturnDate = t.ReturnDate,
+                                      IsReturned = t.IsReturned
+                                  }).ToListAsync();
+
+                }
+                //Return an empty List if context is null
+                return new List<BookBorrowViewModel>();
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+        #endregion
     }
 }

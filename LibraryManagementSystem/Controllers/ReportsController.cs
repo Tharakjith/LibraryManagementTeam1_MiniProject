@@ -70,20 +70,20 @@ namespace LibraryManagementSystem.Controllers
         #endregion
 
 
-        //#region 2- Get Reports of Borrowed books
-        //[HttpGet("vm")]
-        //public async Task<ActionResult<IEnumerable<BoAuCatViewModel>>> GetViewModelBookCategories()
-        //{
-        //    var books = await _repository.GetViewModelBookCategories();
-        //    if (books == null)
-        //    {
-        //        return NotFound("No Reports found");
-        //    }
+        #region 2- Get Reports of Borrowed books
+        [HttpGet("vm")]
+        public async Task<ActionResult<IEnumerable<BookBorrowViewModel>>> GetViewModelBookCategories()
+        {
+            var books = await _repository.GetViewModelBookCategories();
+            if (books == null)
+            {
+                return NotFound("No Reports found");
+            }
 
-        //    return Ok(books);
-        //}
+            return Ok(books);
+        }
 
-        //#endregion
+        #endregion
 
     }
 }

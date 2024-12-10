@@ -11,9 +11,9 @@ namespace LibraryManagementSystem.Repository
         public Task<ActionResult<IEnumerable<BoAuCatViewModel>>> GetViewModelBooks();
         #endregion
 
-        //#region 2- Get Reports of Borrowed books
-        ////ViewModel
-        //public Task<ActionResult<IEnumerable<BoAuCatViewModel>>> GetViewModelBookCategories();
-        //#endregion
+        #region 2- Get Reports of Borrowed books
+        //ViewModel
+        public Task<ActionResult<IEnumerable<BookBorrowViewModel>>> GetViewModelBookCategories();
+        #endregion
     }
 }
