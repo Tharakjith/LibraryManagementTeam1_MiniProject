@@ -1,4 +1,5 @@
 using LibraryManagementSystem.Model;
+using LibraryManagementSystem.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -46,10 +47,14 @@ namespace LibraryManagementSystem
              });
             //connection string as Middleware
 
-            builder.Services.AddDbContext<LibraryMngtDbContext>(
-                options => options.UseSqlServer(builder.Configuration.GetConnectionString("PropelAug2024Connection")));
+            
 
+            // 1- connection string as middleware
+            builder.Services.AddDbContext<LibraryMngtDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("PropelAug2024Connection")));
 
+            //2-Register repository and service layer
+
+            builder.Services.AddScoped<IBookRepository, BookRepository>();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
