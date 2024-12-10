@@ -1,4 +1,5 @@
 using LibraryManagementSystem.Model;
+using LibraryManagementSystem.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -12,11 +13,11 @@ namespace LibraryManagementSystem
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-
             builder.Services.AddControllers();
+            //Register a JWT authentication schema
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
-     .AddJwtBearer(opt =>
+                .AddJwtBearer(opt =>
      {
          opt.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
          {
@@ -29,10 +30,10 @@ namespace LibraryManagementSystem
              IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(
                  builder.Configuration["Jwt:Key"]))
          };
-     } );
+     });
 
 
-            // - json format
+            //3-json format
             builder.Services.AddControllersWithViews()
              .AddJsonOptions(
              options =>
@@ -44,21 +45,19 @@ namespace LibraryManagementSystem
                  System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull;
                  options.JsonSerializerOptions.WriteIndented = true;
              });
-            //connection string as Middleware
 
-            builder.Services.AddDbContext<LibraryMngtDbContext>(
-                options => options.UseSqlServer(builder.Configuration.GetConnectionString("PropelAug2024Connection")));
+            // Configure database context
+            builder.Services.AddDbContext<LibraryMngtDbContext>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("PropelAug24Connection")));
 
+            builder.Services.AddScoped<IBorrowTransactionRepository, BorrowTransactionRepository>();
 
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
-
             app.UseHttpsRedirection();
-
+            app.UseAuthentication();
             app.UseAuthorization();
-
-
             app.MapControllers();
 
             app.Run();
