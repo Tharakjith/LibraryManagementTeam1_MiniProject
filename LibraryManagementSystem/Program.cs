@@ -46,12 +46,28 @@ namespace LibraryManagementSystem
                  options.JsonSerializerOptions.WriteIndented = true;
              });
 
+
             // Configure database context
             builder.Services.AddDbContext<LibraryMngtDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("PropelAug24Connection")));
+=======
+            
+
 
             builder.Services.AddScoped<IBorrowTransactionRepository, BorrowTransactionRepository>();
 
+            // 1- connection string as middleware
+            builder.Services.AddDbContext<LibraryMngtDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("PropelAug2024Connection")));
+
+            
+            builder.Services.AddScoped<IMembersCategoryRepository, MembersCategoryRepository>();
+            
+            //Before app, 
+
+
+            //2-Register repository and service layer
+
+            builder.Services.AddScoped<IBookRepository, BookRepository>();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
