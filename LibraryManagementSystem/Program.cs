@@ -1,4 +1,5 @@
 using LibraryManagementSystem.Model;
+using LibraryManagementSystem.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -49,6 +50,10 @@ namespace LibraryManagementSystem
             builder.Services.AddDbContext<LibraryMngtDbContext>(
                 options => options.UseSqlServer(builder.Configuration.GetConnectionString("PropelAug2024Connection")));
 
+            
+            builder.Services.AddScoped<IMembersCategoryRepository, MembersCategoryRepository>();
+            
+            //Before app, 
 
             var app = builder.Build();
 
