@@ -13,11 +13,11 @@ namespace LibraryManagementSystem
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-
             builder.Services.AddControllers();
+            //Register a JWT authentication schema
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
-     .AddJwtBearer(opt =>
+                .AddJwtBearer(opt =>
      {
          opt.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
          {
@@ -45,22 +45,37 @@ namespace LibraryManagementSystem
                  System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull;
                  options.JsonSerializerOptions.WriteIndented = true;
              });
-            //connection string as Middleware
 
-            builder.Services.AddDbContext<LibraryMngtDbContext>(
-                options => options.UseSqlServer(builder.Configuration.GetConnectionString("PropelAug2024Connection")));
+
+            // Configure database context
+            builder.Services.AddDbContext<LibraryMngtDbContext>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("PropelAug24Connection")));
+
+            
+
+
+            builder.Services.AddScoped<IBorrowTransactionRepository, BorrowTransactionRepository>();
+
+            // 1- connection string as middleware
+            builder.Services.AddDbContext<LibraryMngtDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("PropelAug2024Connection")));
+
+            
+            builder.Services.AddScoped<IMembersCategoryRepository, MembersCategoryRepository>();
+            
+            //Before app, 
+
 
             //2- Register Repository and service layer
             builder.Services.AddScoped<ILoginRepository, LoginRepository>();
             builder.Services.AddScoped<IReportRepository, ReportRepository>();
 
 
+            builder.Services.AddScoped<IBookRepository, BookRepository>();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
-
             app.UseHttpsRedirection();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseAuthentication();
