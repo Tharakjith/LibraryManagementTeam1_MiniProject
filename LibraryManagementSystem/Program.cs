@@ -68,7 +68,7 @@ namespace LibraryManagementSystem
             //2- Register Repository and service layer
             builder.Services.AddScoped<ILoginRepository, LoginRepository>();
             builder.Services.AddScoped<IReportRepository, ReportRepository>();
-
+            builder.Services.AddScoped<IBorrowTransactionRepository, BorrowTransactionRepository>();
 
             builder.Services.AddScoped<IBookRepository, BookRepository>();
             var app = builder.Build();
