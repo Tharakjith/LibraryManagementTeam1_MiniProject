@@ -33,7 +33,7 @@ namespace LibraryManagementSystem
      } );
 
 
-            //3-json format
+            // - json format
             builder.Services.AddControllersWithViews()
              .AddJsonOptions(
              options =>
@@ -49,8 +49,15 @@ namespace LibraryManagementSystem
 
             
 
+
             // 1- connection string as middleware
             builder.Services.AddDbContext<LibraryMngtDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("PropelAug2024Connection")));
+
+            
+            builder.Services.AddScoped<IMembersCategoryRepository, MembersCategoryRepository>();
+            
+            //Before app, 
+
 
             //2-Register repository and service layer
 
